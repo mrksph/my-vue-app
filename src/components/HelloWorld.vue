@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h1>Unix time: {{ date }}</h1>
+    <h1>Unix time: {{ date.toLocaleString() }}</h1>
   </div>
 </template>
 
@@ -9,7 +9,18 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      date: new Date().toLocaleString()
+      date: new Date()
+    }
+  },
+  mounted () {
+    this.$options.interval = setInterval(this.updateDate, 1000)
+  },
+  beforeDestroy () {
+    clearInterval(this.$options.interval)
+  },
+  methods: {
+    updateDate () {
+      this.date = new Date()
     }
   }
 }
