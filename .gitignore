@@ -1,4 +1,3 @@
-.DS_Store
 node_modules/
 /dist/
 npm-debug.log*
@@ -14,9 +13,6 @@ selenium-debug.log
 *.suo
 *.ntvs*
 *.njsproj
-*.sln
-
-
 package-lock.json
 .eslintignore
 .eslintrc.js
