@@ -7,7 +7,7 @@
                       leave-active-class="animated fadeOutDown">
 
       <TodoItem v-for="todo in todosFiltered" :key="todo.id"
-                :todo="todo" class="TodoItem" :checkAll="anyRemaining"
+                :todo="todo" class="TodoItem" :checkAll="!anyRemaining"
                 @removeTodo="removeTodo"
                 @finishedEdit="finishedEdit">
       </TodoItem>
@@ -15,33 +15,25 @@
 
     <div class="extra-container">
       <div>
-        <label><input type="checkbox" :checked="!anyRemaining"
-                      @change="checkAllTodos">Check All</label>
+        <label><input type="checkbox" :checked="!anyRemaining" @change="checkAllTodos"> Check All</label>
       </div>
-      <div> {{ remaining }} items left</div>
+      <div>{{ remaining }} items left</div>
     </div>
 
     <div class="extra-container">
       <div>
-        <button :class="{ active: filter == 'all' }"
-                @click="filter = 'all'">All
-        </button>
-        <button :class="{ active: filter == 'active' }"
-                @click="filter = 'active'">Active
-        </button>
-        <button :class="{ active: filter == 'completed' }"
-                @click="filter = 'completed'">Completed
-        </button>
+        <button :class="{ active: filter == 'all' }" @click="filter = 'all'">All</button>
+        <button :class="{ active: filter == 'active' }" @click="filter = 'active'">Active</button>
+        <button :class="{ active: filter == 'completed' }" @click="filter = 'completed'">Completed</button>
+
+        <div>
+          <transition name="fade">
+            <button v-if="showClearCompletedButton" @click="clearCompleted">Clear Completed</button>
+          </transition>
+        </div>
+
       </div>
     </div>
-
-    <div>
-      <transition name="fade">
-        <button v-if="showClearCompletedButton" @click="clearCompleted">Clear Completed
-        </button>
-      </transition>
-    </div>
-
   </div>
 </template>
 
@@ -51,7 +43,7 @@ import TodoItem from './TodoItem'
 export default {
   name: 'TodoList',
   components: {
-    TodoItem
+    TodoItem,
   },
   data () {
     return {
@@ -76,22 +68,18 @@ export default {
   },
   computed: {
     remaining () {
-      return this.todos.filter(todo => !todo.completed
-      )
-        .length
+      return this.todos.filter(todo => !todo.completed).length
     },
     anyRemaining () {
-      return this.remaining !== 0
+      return this.remaining != 0
     },
     todosFiltered () {
-      if (this.filter === 'all') {
+      if (this.filter == 'all') {
         return this.todos
-      } else if (this.filter === 'active') {
-        return this.todos.filter(todo => !todo.completed
-        )
-      } else if (this.filter === 'completed') {
-        return this.todos.filter(todo => todo.completed
-        )
+      } else if (this.filter == 'active') {
+        return this.todos.filter(todo => !todo.completed)
+      } else if (this.filter == 'completed') {
+        return this.todos.filter(todo => todo.completed)
       }
 
       return this.todos
@@ -102,7 +90,7 @@ export default {
   },
   methods: {
     addTodo () {
-      if (this.newTodo.trim().length === 0) {
+      if (this.newTodo.trim().length == 0) {
         return
       }
 
@@ -116,8 +104,7 @@ export default {
       this.idForTodo++
     },
     removeTodo (id) {
-      const index = this.todos.findIndex((item) => item.id === id
-      )
+      const index = this.todos.findIndex((item) => item.id == id)
       this.todos.splice(index, 1)
     },
     checkAllTodos () {
@@ -125,12 +112,10 @@ export default {
       )
     },
     clearCompleted () {
-      this.todos = this.todos.filter(todo => !todo.completed
-      )
+      this.todos = this.todos.filter(todo => !todo.completed)
     },
     finishedEdit (data) {
-      const index = this.todos.findIndex((item) => item.id === data.id
-      )
+      const index = this.todos.findIndex((item) => item.id == data.id)
       this.todos.splice(index, 1, data)
     }
   }
@@ -153,8 +138,8 @@ export default {
 
   .todo-item {
     margin-bottom: 12px;
-    align-content: center;
     display: flex;
+    align-content: center;
     justify-content: space-between;
     animation-duration: 0.3s;
   }
@@ -203,7 +188,7 @@ export default {
     align-items: center;
     justify-content: space-between;
     font-size: 16px;
-    border-top: 14px;
+    border-top: 1px solid lightgrey;
     padding-top: 14px;
     margin-bottom: 14px;
   }
@@ -234,5 +219,4 @@ export default {
   .fade-enter, .fade-leave-to {
     opacity: 0;
   }
-
 </style>
