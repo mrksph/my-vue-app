@@ -21,7 +21,7 @@
         <TodoFiltered></TodoFiltered>
         <div>
           <transition name="fade">
-            <button v-if="showClearCompletedButton" @click="clearCompleted">Clear Completed</button>
+            <TodoClearCompleted :showClearCompletedButton="showClearCompletedButton"></TodoClearCompleted>
           </transition>
         </div>
 
@@ -37,10 +37,12 @@ import TodoItem from './TodoItem'
 import TodoItemsRemaining from './TodoItemsRemaining'
 import TodoCheckAll from './TodoCheckAll'
 import TodoFiltered from './TodoFiltered'
+import TodoClearCompleted from './TodoClearCompleted'
 
 export default {
   name: 'TodoList',
   components: {
+    TodoClearCompleted,
     TodoFiltered,
     TodoItem,
     TodoCheckAll,
