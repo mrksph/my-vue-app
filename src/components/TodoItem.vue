@@ -8,8 +8,8 @@
            class="todo-item-label" :class="{ completed : completed }">
         {{ title }}
       </div>
-      <label>
-        <input v-else class="todo-item-edit" type="text" v-model="title"
+      <label v-else>
+        <input  class="todo-item-edit" type="text" v-model="title"
                @blur="doneEdit"
                @keyup.enter="doneEdit" @keyup.escape="cancelEdit"
                v-focus>

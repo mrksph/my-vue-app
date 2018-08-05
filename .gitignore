@@ -17,4 +17,6 @@ selenium-debug.log
 *.sln
 
 
-.package-lock.json
+package-lock.json
+.eslintignore
+.eslintrc.js

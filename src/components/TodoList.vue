@@ -23,13 +23,13 @@
 
     <div class="extra-container">
       <div>
-        <button :class="{ active: filter === 'all' }"
+        <button :class="{ active: filter == 'all' }"
                 @click="filter = 'all'">All
         </button>
-        <button :class="{ active: filter === 'active' }"
+        <button :class="{ active: filter == 'active' }"
                 @click="filter = 'active'">Active
         </button>
-        <button :class="{ active: filter === 'completed' }"
+        <button :class="{ active: filter == 'completed' }"
                 @click="filter = 'completed'">Completed
         </button>
       </div>
@@ -63,20 +63,22 @@ export default {
           'id': 1,
           'title': 'Finish Vue Screencast',
           'completed': false,
-          'editing': false
+          'editing': false,
         },
         {
           'id': 2,
           'title': 'Take over world',
           'completed': true,
-          'editing': false
+          'editing': false,
         }
       ]
     }
   },
   computed: {
     remaining () {
-      return this.todos.filter(todo => !todo.completed).length
+      return this.todos.filter(todo => !todo.completed
+      )
+        .length
     },
     anyRemaining () {
       return this.remaining !== 0
@@ -85,15 +87,19 @@ export default {
       if (this.filter === 'all') {
         return this.todos
       } else if (this.filter === 'active') {
-        return this.todos.filter(todo => !todo.completed)
+        return this.todos.filter(todo => !todo.completed
+        )
       } else if (this.filter === 'completed') {
-        return this.todos.filter(todo => todo.completed)
+        return this.todos.filter(todo => todo.completed
+        )
       }
 
       return this.todos
     },
     showClearCompletedButton () {
-      return this.todos.filter(todo => todo.completed).length > 0
+      return this.todos.filter(todo => todo.completed
+      )
+        .length > 0
     }
   },
   methods: {
@@ -112,17 +118,21 @@ export default {
       this.idForTodo++
     },
     removeTodo (id) {
-      const index = this.todos.findIndex((item) => item.id === id)
+      const index = this.todos.findIndex((item) => item.id === id
+      )
       this.todos.splice(index, 1)
     },
     checkAllTodos () {
-      this.todos.forEach((todo) => (todo.completed = event.target.checked))
+      this.todos.forEach((todo) => (todo.completed = event.target.checked)
+      )
     },
     clearCompleted () {
-      this.todos = this.todos.filter(todo => !todo.completed)
+      this.todos = this.todos.filter(todo => !todo.completed
+      )
     },
     finishedEdit (data) {
-      const index = this.todos.findIndex((item) => item.id === data.id)
+      const index = this.todos.findIndex((item) => item.id === data.id
+      )
       this.todos.splice(index, 1, data)
     }
   }
@@ -204,9 +214,11 @@ export default {
     font-size: 14px;
     background-color: white;
     appearance: none;
+
     &:hover {
       background: lightgreen;
     }
+
     &:focus {
       outline: none;
     }
