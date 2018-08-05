@@ -7,17 +7,13 @@
                       leave-active-class="animated fadeOutDown">
 
       <TodoItem v-for="todo in todosFiltered" :key="todo.id"
-                :todo="todo" class="TodoItem" :checkAll="!anyRemaining"
-                @removedTodo="removedTodo"
-                @finishedEdit="finishedEdit">
+                :todo="todo" class="TodoItem" :checkAll="!anyRemaining">
       </TodoItem>
     </transition-group>
 
     <div class="extra-container">
-      <div>
-        <label><input type="checkbox" :checked="!anyRemaining" @change="checkAllTodos"> Check All</label>
-      </div>
-      <div>{{ remaining }} items left</div>
+      <TodoCheckAll :any-remaining="anyRemaining"></TodoCheckAll>
+      <TodoItemsRemaining :remaining="remaining"></TodoItemsRemaining>
     </div>
 
     <div class="extra-container">
@@ -38,12 +34,18 @@
 </template>
 
 <script>
+/* eslint-disable no-undef */
+
 import TodoItem from './TodoItem'
+import TodoItemsRemaining from './TodoItemsRemaining'
+import TodoCheckAll from './TodoCheckAll'
 
 export default {
   name: 'TodoList',
   components: {
     TodoItem,
+    TodoCheckAll,
+    TodoItemsRemaining,
   },
   data () {
     return {
@@ -65,6 +67,20 @@ export default {
         }
       ]
     }
+  },
+  created () {
+    eventBus.$on('removedTodo', (id) => this.removeTodo(id))
+    eventBus.$on('finishedEdit', (data) => this.finishedEdit(data))
+    eventBus.$on('checkAllChanged', (checked) => this.checkAllTodos(checked))
+    eventBus.$on('filterChanged', (filter) => (this.filter = filter))
+    eventBus.$on('clearCompletedTodos', () => this.clearCompleted())
+  },
+  beforeDestroy () {
+    eventBus.$off('removedTodo')
+    eventBus.$off('finishedEdit')
+    eventBus.$off('checkAllChanged')
+    eventBus.$off('filterChanged')
+    eventBus.$off('clearCompletedTodos')
   },
   computed: {
     remaining () {
@@ -103,7 +119,7 @@ export default {
       this.newTodo = ''
       this.idForTodo++
     },
-    removedTodo (id) {
+    removeTodo (id) {
       const index = this.todos.findIndex((item) => item.id == id)
       this.todos.splice(index, 1)
     },

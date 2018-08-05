@@ -1,22 +1,28 @@
 <template>
   <div class="todo-item">
     <div class="todo-item-left">
-      <input type="checkbox" v-model="completed" @change="doneEdit"/>
+      <input type="checkbox" v-model="completed" @change="doneEdit" title="completed"/>
       <div v-if="!editing" @dblclick="editTodo" class="todo-item-label" :class="{ completed : completed }">
         {{ title }}
       </div>
       <input v-else class="todo-item-edit" type="text" v-model="title"
              @blur="doneEdit"
              @keyup.enter="doneEdit" @keyup.escape="cancelEdit"
-             v-focus>
+             v-focus title="Edit">
     </div>
-    <div class="remove-item" @click="removedTodo(todo.id)">
-      &times;
+
+    <div>
+      <div class="remove-item" @click="removedTodo(todo.id)">
+        &times;
+      </div>
     </div>
+
   </div>
 </template>
 
 <script>
+/* eslint-disable no-undef */
+
 export default {
   name: 'TodoItem',
   props: {
@@ -51,8 +57,8 @@ export default {
     }
   },
   methods: {
-    removedTodo (id) {
-      this.$emit('removedTodo', id)
+    removeTodo (id) {
+      eventBus.$emit('removeTodo', id)
     },
     editTodo () {
       this.beforeEditCache = this.title
@@ -63,7 +69,7 @@ export default {
         this.title = this.beforeEditCache
       }
       this.editing = false
-      this.$emit('finishedEdit', {
+      eventBus.$emit('finishedEdit', {
         'id': this.id,
         'title': this.title,
         'completed': this.completed,
@@ -73,7 +79,7 @@ export default {
     cancelEdit () {
       this.title = this.beforeEditCache
       this.editing = false
-    }
+    },
   }
 }
 </script>
