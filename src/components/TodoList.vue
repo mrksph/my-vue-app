@@ -18,10 +18,7 @@
 
     <div class="extra-container">
       <div>
-        <button :class="{ active: filter == 'all' }" @click="filter = 'all'">All</button>
-        <button :class="{ active: filter == 'active' }" @click="filter = 'active'">Active</button>
-        <button :class="{ active: filter == 'completed' }" @click="filter = 'completed'">Completed</button>
-
+        <TodoFiltered></TodoFiltered>
         <div>
           <transition name="fade">
             <button v-if="showClearCompletedButton" @click="clearCompleted">Clear Completed</button>
@@ -39,10 +36,12 @@
 import TodoItem from './TodoItem'
 import TodoItemsRemaining from './TodoItemsRemaining'
 import TodoCheckAll from './TodoCheckAll'
+import TodoFiltered from './TodoFiltered'
 
 export default {
   name: 'TodoList',
   components: {
+    TodoFiltered,
     TodoItem,
     TodoCheckAll,
     TodoItemsRemaining,
