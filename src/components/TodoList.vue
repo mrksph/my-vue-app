@@ -8,7 +8,7 @@
 
       <TodoItem v-for="todo in todosFiltered" :key="todo.id"
                 :todo="todo" class="TodoItem" :checkAll="!anyRemaining"
-                @removeTodo="removeTodo"
+                @removedTodo="removedTodo"
                 @finishedEdit="finishedEdit">
       </TodoItem>
     </transition-group>
@@ -103,7 +103,7 @@ export default {
       this.newTodo = ''
       this.idForTodo++
     },
-    removeTodo (id) {
+    removedTodo (id) {
       const index = this.todos.findIndex((item) => item.id == id)
       this.todos.splice(index, 1)
     },

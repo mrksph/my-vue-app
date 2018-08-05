@@ -1,21 +1,16 @@
 <template>
   <div class="todo-item">
     <div class="todo-item-left">
-      <label>
-        <input type="checkbox" v-model="todo.completed" @change="doneEdit"/>
-      </label>
-      <div v-if="!editing" @dblclick="editTodo"
-           class="todo-item-label" :class="{ completed : completed }">
+      <input type="checkbox" v-model="completed" @change="doneEdit"/>
+      <div v-if="!editing" @dblclick="editTodo" class="todo-item-label" :class="{ completed : completed }">
         {{ title }}
       </div>
-      <label v-else>
-        <input  class="todo-item-edit" type="text" v-model="title"
-               @blur="doneEdit"
-               @keyup.enter="doneEdit" @keyup.escape="cancelEdit"
-               v-focus>
-      </label>
+      <input v-else class="todo-item-edit" type="text" v-model="title"
+             @blur="doneEdit"
+             @keyup.enter="doneEdit" @keyup.escape="cancelEdit"
+             v-focus>
     </div>
-    <div class="remove-item" @click="removeTodo(index)">
+    <div class="remove-item" @click="removedTodo(todo.id)">
       &times;
     </div>
   </div>
@@ -27,11 +22,11 @@ export default {
   props: {
     todo: {
       type: Object,
-      required: true
+      required: true,
     },
     checkAll: {
       type: Boolean,
-      required: true
+      required: true,
     }
   },
   data () {
@@ -40,7 +35,7 @@ export default {
       'title': this.todo.title,
       'completed': this.todo.completed,
       'editing': this.todo.editing,
-      'beforeEditCache': ''
+      'beforeEditCache': '',
     }
   },
   watch: {
@@ -56,26 +51,23 @@ export default {
     }
   },
   methods: {
-    removeTodo (index) {
-      this.$emit('removeTodo', index)
+    removedTodo (id) {
+      this.$emit('removedTodo', id)
     },
     editTodo () {
       this.beforeEditCache = this.title
       this.editing = true
     },
     doneEdit () {
-      if (this.title.trim() === '') {
+      if (this.title.trim() == '') {
         this.title = this.beforeEditCache
       }
       this.editing = false
       this.$emit('finishedEdit', {
-        'index': this.index,
-        'todo': {
-          'id': this.id,
-          'title': this.title,
-          'completed': this.completed,
-          'editing': this.editing
-        }
+        'id': this.id,
+        'title': this.title,
+        'completed': this.completed,
+        'editing': this.editing,
       })
     },
     cancelEdit () {
@@ -86,6 +78,6 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
 </style>
