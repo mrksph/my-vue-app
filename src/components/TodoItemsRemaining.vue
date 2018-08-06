@@ -5,8 +5,8 @@
 <script>
 export default {
   name: 'TodoItemsRemaining',
-  props: {
-    computed () {
+  computed: {
+    remaining () {
       return this.$store.getters.remaining
     }
   }
