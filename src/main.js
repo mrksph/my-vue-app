@@ -11,7 +11,7 @@ window.eventBus = new Vue()
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  store,
+  store: store,
   components: {App},
   template: '<App/>'
 })

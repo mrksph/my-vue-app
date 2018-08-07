@@ -56,26 +56,12 @@ export default {
     }
   },
   computed: {
-    remaining () {
-      return this.$store.state.todos.filter(todo => !todo.completed).length
-    },
     anyRemaining () {
-      return this.remaining != 0
+      return this.$store.getters.anyRemaining
     },
     todosFiltered () {
-      if (this.$store.state.filter == 'all') {
-        return this.$store.state.todos
-      } else if (this.$store.state.filter == 'active') {
-        return this.$store.state.todos.filter(todo => !todo.completed)
-      } else if (this.$store.state.filter == 'completed') {
-        return this.$store.state.todos.filter(todo => todo.completed)
-      }
-
-      return this.$store.state.todos
+      return this.$store.getters.todosFiltered
     },
-    showClearCompletedButton () {
-      return this.$store.state.todos.filter(todo => todo.completed).length > 0
-    }
   },
   methods: {
     addTodo () {
@@ -83,37 +69,14 @@ export default {
         return
       }
 
-      this.$store.commit('addTodo', {
-        id: this.todo.idForTodo,
-        title: this.todo.newTodo,
-        completed: false,
-      })
-
-      this.$store.state.todos.push({
+      this.$store.dispatch('addTodo', {
         id: this.idForTodo,
         title: this.newTodo,
-        completed: false
       })
 
       this.newTodo = ''
       this.idForTodo++
     },
-    /*
-    removeTodo (id) {
-      const index = this.$store.state.todos.findIndex((item) => item.id == id)
-      this.$store.state.todos.splice(index, 1)
-    }, */
-    checkAllTodos () {
-      this.$store.state.todos.forEach((todo) => (todo.completed = event.target.checked)
-      )
-    },
-    clearCompleted () {
-      this.$store.state.todos = this.$store.state.todos.filter(todo => !todo.completed)
-    },
-    finishedEdit (data) {
-      const index = this.$store.state.todos.findIndex((item) => item.id == data.id)
-      this.$store.state.todos.splice(index, 1, data)
-    }
   }
 }
 </script>
