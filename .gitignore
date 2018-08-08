@@ -15,4 +15,3 @@ selenium-debug.log
 *.njsproj
 package-lock.json
 .eslintignore
-.eslintrc.js
