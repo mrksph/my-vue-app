@@ -1,6 +1,19 @@
 # my-vue-app
 
-> A Vue.js project
+> A simple ToDo application written with Vue
+
+## Description
+
+I've created this to learn how to make apps with the Vue framework!
+
+## Goals
+This is a small list of things I would like to add or make and integrate into this application:
+
+  1. Make a simple backend app
+  2. Host it in the Cloud, either AWS or Google Cloud
+  3. Integrate it withing a Jenkins Pipeline
+  4. Tests!
+  
 
 ## Build Setup
 
